@@ -1,0 +1,287 @@
+/* ============================================================
+   SMBMate — Global Design System
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Brand Colors */
+  --green-50: #f0fdf4;
+  --green-100: #dcfce7;
+  --green-400: #4ade80;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  --green-700: #15803d;
+
+  /* WA Green */
+  --wa-green: #25D366;
+  --wa-dark: #128C7E;
+
+  /* Dark Theme */
+  --bg-base: #0a0f0d;
+  --bg-card: #111a14;
+  --bg-card-hover: #162019;
+  --bg-glass: rgba(22, 32, 25, 0.7);
+  --bg-input: #0f1a12;
+
+  /* Accent */
+  --accent: #22c55e;
+  --accent-glow: rgba(34, 197, 94, 0.25);
+  --accent-muted: rgba(34, 197, 94, 0.12);
+
+  /* Orange accent for highlights */
+  --orange: #f97316;
+  --orange-muted: rgba(249, 115, 22, 0.15);
+
+  /* Text */
+  --text-primary: #f0fdf4;
+  --text-secondary: #86efac;
+  --text-muted: #4ade80;
+  --text-dim: #6b7280;
+
+  /* Borders */
+  --border: rgba(34, 197, 94, 0.15);
+  --border-hover: rgba(34, 197, 94, 0.35);
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-green: 0 0 30px rgba(34, 197, 94, 0.15);
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #0a0f0d;
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+.btn-primary:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(34, 197, 94, 0.4);
+}
+
+.btn-wa {
+  background: #25D366;
+  color: #fff;
+  font-size: 16px;
+  padding: 16px 32px;
+  box-shadow: 0 4px 24px rgba(37, 211, 102, 0.4);
+}
+.btn-wa:hover {
+  background: #1ebe59;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(37, 211, 102, 0.5);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  background: var(--accent-muted);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--accent);
+  border: 1.5px solid var(--accent);
+}
+.btn-outline:hover {
+  background: var(--accent);
+  color: #0a0f0d;
+}
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  transition: all 0.25s ease;
+}
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-green);
+}
+
+/* Glass effect */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.badge-green {
+  background: var(--accent-muted);
+  color: var(--accent);
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+.badge-orange {
+  background: var(--orange-muted);
+  color: var(--orange);
+  border: 1px solid rgba(249, 115, 22, 0.25);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #22c55e, #4ade80, #86efac);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Section */
+.section {
+  padding: 80px 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Pulse animation */
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(34, 197, 94, 0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.fade-up { animation: fadeUp 0.6s ease forwards; }
+.slide-in { animation: slideIn 0.5s ease forwards; }
+
+/* WhatsApp bubble */
+.wa-bubble {
+  background: #1f2c22;
+  border-radius: 18px 18px 18px 4px;
+  padding: 14px 18px;
+  max-width: 320px;
+  position: relative;
+  border: 1px solid rgba(37, 211, 102, 0.15);
+}
+.wa-bubble-right {
+  background: #005c4b;
+  border-radius: 18px 18px 4px 18px;
+  margin-left: auto;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: var(--border);
+}
+
+/* Metric card */
+.metric-card {
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-card-hover));
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  text-align: center;
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 8px;
+  background: rgba(34, 197, 94, 0.15);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #4ade80);
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+/* Tag */
+.tag {
+  display: inline-block;
+  background: var(--accent-muted);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
