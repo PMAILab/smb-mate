@@ -421,3 +421,19 @@
   .onboarding-right { padding: 32px 24px; }
   .business-type-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+@media (max-width: 600px) {
+  .onboarding-right { padding: 24px 16px; }
+  .onb-title { font-size: 24px; }
+  .business-type-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .onb-next-btn { min-width: unset; flex: 1; }
+  .credit-amount { font-size: 48px; }
+  .credit-banner { padding: 28px 20px; }
+}
+
+@media (max-width: 400px) {
+  .business-type-grid { grid-template-columns: repeat(2, 1fr); }
+  .onb-nav { flex-direction: column-reverse; gap: 12px; }
+  .onb-next-btn { width: 100%; }
+}
+

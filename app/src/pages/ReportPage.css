@@ -222,8 +222,24 @@
 }
 
 @media (max-width: 1000px) {
-  .report-layout { grid-template-columns: 1fr; }
+  .report-layout { grid-template-columns: 1fr; padding: 32px 20px; }
   .report-wa-preview { position: static; }
   .report-metrics-grid { grid-template-columns: repeat(2, 1fr); }
   .weekly-summary-grid { grid-template-columns: repeat(2, 1fr); }
 }
+
+@media (max-width: 600px) {
+  .report-layout { padding: 20px 16px; gap: 24px; }
+  .report-metrics-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .weekly-summary-grid { grid-template-columns: 1fr 1fr; }
+  .report-title { font-size: 26px; }
+  .ai-tip-actions { flex-direction: column; }
+  .ai-tip-actions .btn { width: 100%; justify-content: center; }
+  .rmc-value { font-size: 24px; }
+}
+
+@media (max-width: 400px) {
+  .report-metrics-grid { grid-template-columns: 1fr; }
+  .weekly-summary-grid { grid-template-columns: 1fr 1fr; }
+}
+

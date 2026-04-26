@@ -419,15 +419,113 @@
   font-size: 14px;
 }
 
+/* ── Mobile bottom tab bar ── */
+.mobile-tab-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 150;
+  background: var(--bg-card);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.mobile-tab-bar-inner {
+  display: flex;
+  align-items: stretch;
+}
+.mobile-tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 11px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.mobile-tab-btn .tab-icon { font-size: 20px; }
+.mobile-tab-btn.active {
+  color: var(--accent);
+}
+.mobile-tab-btn.active::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 0 0 2px 2px;
+}
+.mobile-tab-badge {
+  position: absolute;
+  top: 8px;
+  right: calc(50% - 18px);
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #0a0f0d;
+  font-size: 9px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Responsive Breakpoints ── */
+
 @media (max-width: 1100px) {
   .summary-grid { grid-template-columns: repeat(2, 1fr); }
   .chart-spend-row { grid-template-columns: 1fr; }
+  .dashboard-main { padding: 28px 24px; }
 }
-@media (max-width: 800px) {
-  .dashboard-layout { grid-template-columns: 1fr; }
+
+@media (max-width: 900px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
   .dashboard-sidebar { display: none; }
-  .dashboard-main { padding: 24px 16px; }
+  .mobile-tab-bar { display: block; }
+  .dashboard-main {
+    padding: 24px 16px;
+    padding-bottom: 80px; /* room for tab bar */
+  }
   .summary-grid { grid-template-columns: repeat(2, 1fr); }
   .campaign-card { flex-wrap: wrap; }
   .campaign-metrics { flex-wrap: wrap; gap: 12px; }
+  .dashboard-topbar { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .topbar-actions { width: 100%; }
+  .topbar-actions .btn { flex: 1; justify-content: center; }
+  .plain-insight-suggestion { flex-wrap: wrap; }
+}
+
+@media (max-width: 600px) {
+  .summary-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .summary-card { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .summary-value { font-size: 20px; }
+  .chart-spend-row { gap: 12px; }
+  .campaign-card { padding: 16px; }
+  .campaign-metrics { gap: 8px; }
+  .metric-val { font-size: 14px; }
+  .message-card { flex-wrap: wrap; gap: 12px; }
+  .msg-preview { max-width: 100%; }
+  .dashboard-title { font-size: 20px; }
+  .ai-sug-actions { flex-direction: column; }
+  .ai-sug-actions .btn { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 400px) {
+  .summary-grid { grid-template-columns: 1fr; }
+  .dashboard-main { padding: 16px 12px; padding-bottom: 80px; }
 }

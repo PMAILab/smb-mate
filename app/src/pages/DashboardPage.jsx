@@ -1,17 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import { useAuth } from '../context/AuthContext'
 import './DashboardPage.css'
 
-// Mocked data
-const MOCK_USER = {
-  name: "Priya's Boutique",
-  city: "Pune",
-  plan: "Starter",
-  credit: 500,
-  spendCap: 1000,
-  weekSpent: 347,
-}
+// Spend cap (not in session, kept as constant for prototype)
+const SPEND_CAP = 1000
+const WEEK_SPENT = 347
 
 const CAMPAIGNS = [
   {
@@ -187,8 +182,20 @@ function WeeklyChart({ data }) {
 
 export default function DashboardPage() {
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [approvedSuggestions, setApprovedSuggestions] = useState([])
   const [activeTab, setActiveTab] = useState('overview')
+
+  // Merge session user with prototype defaults
+  const displayUser = {
+    name: user?.businessName || user?.name || "Priya's Boutique",
+    firstName: (user?.name || 'Priya').split(' ')[0],
+    city: user?.city || 'Pune',
+    plan: user?.plan || 'Starter',
+    credit: user?.credit ?? 500,
+    spendCap: SPEND_CAP,
+    weekSpent: WEEK_SPENT,
+  }
 
   const handleApprove = (id) => {
     setApprovedSuggestions(prev => [...prev, id])
@@ -206,18 +213,18 @@ export default function DashboardPage() {
         <aside className="dashboard-sidebar">
           <div className="sidebar-user">
             <div className="user-avatar">
-              {MOCK_USER.name.charAt(0)}
+              {displayUser.name.charAt(0)}
             </div>
             <div>
-              <div className="user-name">{MOCK_USER.name}</div>
-              <div className="user-city">📍 {MOCK_USER.city}</div>
+              <div className="user-name">{displayUser.name}</div>
+              <div className="user-city">📍 {displayUser.city}</div>
             </div>
           </div>
 
           <div className="sidebar-credit">
             <div className="credit-header">
               <span className="credit-tag">🎁 Free Credit</span>
-              <span className="credit-val">₹{MOCK_USER.credit}</span>
+              <span className="credit-val">₹{displayUser.credit}</span>
             </div>
             <div className="progress-bar">
               <div className="progress-fill" style={{ width: '100%' }} />
@@ -261,7 +268,7 @@ export default function DashboardPage() {
           <div className="dashboard-topbar">
             <div>
               <h1 className="dashboard-title">
-                {activeTab === 'overview' && 'Good evening, Priya! 🌙'}
+                {activeTab === 'overview' && `Good evening, ${displayUser.firstName}! 🌙`}
                 {activeTab === 'campaigns' && 'Your Campaigns'}
                 {activeTab === 'messages' && 'Customer Messages'}
                 {activeTab === 'ai' && 'AI Suggestions'}
@@ -363,15 +370,15 @@ export default function DashboardPage() {
 
                 <div className="spend-cap-card card">
                   <div className="cap-title">Weekly Spend Cap</div>
-                  <SpendCapRing used={MOCK_USER.weekSpent} total={MOCK_USER.spendCap} />
+                  <SpendCapRing used={displayUser.weekSpent} total={displayUser.spendCap} />
                   <div className="cap-details">
                     <div className="cap-used">
-                      <span className="cap-val">₹{MOCK_USER.weekSpent}</span>
+                      <span className="cap-val">₹{displayUser.weekSpent}</span>
                       <span className="cap-lbl">used</span>
                     </div>
                     <div className="cap-divider" />
                     <div className="cap-remaining">
-                      <span className="cap-val" style={{color:'var(--accent)'}}>₹{MOCK_USER.spendCap - MOCK_USER.weekSpent}</span>
+                      <span className="cap-val" style={{color:'var(--accent)'}}>₹{displayUser.spendCap - displayUser.weekSpent}</span>
                       <span className="cap-lbl">remaining</span>
                     </div>
                   </div>
@@ -519,6 +526,29 @@ export default function DashboardPage() {
             </div>
           )}
         </main>
+      </div>
+
+      {/* Mobile Bottom Tab Bar */}
+      <div className="mobile-tab-bar">
+        <div className="mobile-tab-bar-inner">
+          {[
+            { id: 'overview', icon: '📊', label: 'Overview' },
+            { id: 'campaigns', icon: '🚀', label: 'Campaigns' },
+            { id: 'messages', icon: '💬', label: 'Messages', badge: 2 },
+            { id: 'ai', icon: '🤖', label: 'AI', badge: 3 },
+          ].map(item => (
+            <button
+              key={item.id}
+              id={`mobile-tab-${item.id}`}
+              className={`mobile-tab-btn ${activeTab === item.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(item.id)}
+            >
+              {item.badge && <span className="mobile-tab-badge">{item.badge}</span>}
+              <span className="tab-icon">{item.icon}</span>
+              <span>{item.label}</span>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   )
