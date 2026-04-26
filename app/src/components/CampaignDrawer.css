@@ -1,0 +1,230 @@
+/* ============================================================
+   Campaign Drawer
+   ============================================================ */
+
+/* Backdrop fades in */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 600;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Drawer slides in from right */
+.campaign-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg-base);
+  border-left: 1px solid var(--border);
+  box-shadow: -20px 0 60px rgba(0,0,0,0.5);
+  z-index: 610;
+  display: flex;
+  flex-direction: column;
+  animation: slideLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideLeft {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(0); }
+}
+@keyframes fadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* ── Header ── */
+.drawer-header {
+  padding: 24px 28px;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  flex-shrink: 0;
+}
+.drawer-campaign-icon {
+  width: 48px; height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.drawer-header-info {
+  flex: 1;
+}
+.drawer-campaign-name {
+  font-size: 16px; font-weight: 800;
+  color: var(--text-primary);
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 4px;
+}
+.drawer-campaign-platform {
+  font-size: 12px;
+  color: var(--text-dim);
+}
+.drawer-status-badge {
+  font-size: 11px; font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+.drawer-close {
+  position: absolute;
+  top: 20px; right: 20px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-dim);
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.drawer-close:hover { background: var(--border); color: var(--text-primary); }
+
+/* ── Body ── */
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* Success banner */
+.drawer-done-banner {
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.3);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex; align-items: center; gap: 12px;
+  color: var(--accent);
+  font-size: 14px; font-weight: 600;
+  animation: fadeUp 0.4s ease;
+}
+.drawer-done-icon { font-size: 20px; }
+
+/* Sections */
+.drawer-section { display: flex; flex-direction: column; gap: 14px; }
+.drawer-section-title {
+  font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  color: var(--text-dim);
+}
+
+/* Metrics Grid */
+.drawer-metrics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.drawer-metric {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.drawer-metric.featured {
+  background: rgba(34,197,94,0.04);
+  border-color: rgba(34,197,94,0.2);
+}
+.dm-val { font-size: 20px; font-weight: 800; color: var(--text-primary); font-family: 'Poppins', sans-serif; }
+.dm-lbl { font-size: 12px; color: var(--text-dim); }
+
+/* Sparkline */
+.drawer-sparkline {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.spark-label { font-size: 12px; color: var(--text-dim); margin-bottom: 12px; align-self: flex-start; }
+.spark-days {
+  display: flex; justify-content: space-between; width: 100%;
+  margin-top: 8px;
+  padding: 0 4px;
+  font-size: 10px; color: var(--text-dim); text-transform: uppercase;
+}
+.drawer-no-data {
+  background: var(--bg-card);
+  border: 1px dashed var(--border-hover);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-align: center;
+  font-size: 13px; color: var(--text-dim);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.drawer-no-data span:first-child { font-size: 24px; }
+
+/* AI Tip */
+.drawer-ai-tip {
+  display: flex; align-items: flex-start; gap: 12px;
+  background: rgba(249,115,22,0.06);
+  border: 1px solid rgba(249,115,22,0.2);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  font-size: 14px; color: var(--text-primary);
+  line-height: 1.5;
+}
+.drawer-ai-icon { font-size: 20px; }
+
+/* Ad Copy */
+.drawer-ad-copy {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 4px 16px;
+}
+.drawer-copy-row {
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.drawer-copy-row:last-child { border-bottom: none; }
+.drawer-copy-lbl { font-size: 11px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; }
+.drawer-copy-val { font-size: 13px; color: var(--text-primary); line-height: 1.5; }
+
+/* Confirm inner block */
+.drawer-confirm {
+  background: rgba(239, 68, 68, 0.05);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  animation: fadeUp 0.3s ease;
+}
+.drawer-confirm-text { font-size: 13px; color: var(--text-primary); line-height: 1.5; margin-bottom: 16px; }
+.drawer-confirm-btns { display: flex; gap: 12px; }
+
+/* ── Footer ── */
+.drawer-footer {
+  padding: 20px 28px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-card);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.drawer-active-tip {
+  font-size: 12px; color: var(--text-dim); text-align: center; margin-bottom: 4px;
+}
+
+@media (max-width: 600px) {
+  .drawer-header { padding: 20px; }
+  .drawer-body { padding: 20px; }
+  .drawer-footer { padding: 20px; }
+}

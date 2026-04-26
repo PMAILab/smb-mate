@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
 import { useAuth } from '../context/AuthContext'
+import AddCampaignModal from '../components/AddCampaignModal'
+import CampaignDrawer from '../components/CampaignDrawer'
 import './DashboardPage.css'
 
 // Spend cap (not in session, kept as constant for prototype)
@@ -185,6 +187,26 @@ export default function DashboardPage() {
   const { user } = useAuth()
   const [approvedSuggestions, setApprovedSuggestions] = useState([])
   const [activeTab, setActiveTab] = useState('overview')
+  const [showCampaignModal, setShowCampaignModal] = useState(false)
+  const [campaigns, setCampaigns] = useState(CAMPAIGNS)
+  const [selectedCampaignId, setSelectedCampaignId] = useState(null)
+
+  const handleAddCampaign = (newCampaign) => {
+    setCampaigns(prev => [newCampaign, ...prev])
+    setActiveTab('campaigns')
+  }
+
+  const handleCampaignAction = (id, actionType) => {
+    setCampaigns(prev => prev.map(c => {
+      if (c.id !== id) return c
+      if (actionType === 'approve') return { ...c, status: 'active', platform: c.platform.replace('🚀 Both', '🚀 Both') } // Refreshing UI implicitly
+      if (actionType === 'pause') return { ...c, status: 'paused' }
+      if (actionType === 'resume') return { ...c, status: 'active' }
+      return c // delete will be handled filtering
+    }).filter(c => actionType !== 'delete' || c.id !== id))
+  }
+
+  const selectedCampaign = campaigns.find(c => c.id === selectedCampaignId)
 
   // Merge session user with prototype defaults
   const displayUser = {
@@ -284,8 +306,9 @@ export default function DashboardPage() {
               <button id="view-report" className="btn btn-ghost btn-sm" onClick={() => navigate('/report')}>
                 📊 Daily Report
               </button>
-              <button id="new-campaign" className="btn btn-primary btn-sm">
-                + New Campaign
+              <button id="new-campaign" className="btn btn-primary btn-sm"
+                onClick={() => setShowCampaignModal(true)}>
+                ✨ New Campaign
               </button>
             </div>
           </div>
@@ -410,7 +433,7 @@ export default function DashboardPage() {
           {/* Campaigns Tab */}
           {activeTab === 'campaigns' && (
             <div className="campaigns-content">
-              {CAMPAIGNS.map((c, i) => (
+              {campaigns.map((c, i) => (
                 <div key={c.id} className={`campaign-card card campaign-${c.status}`}>
                   <div className="campaign-icon">{c.image}</div>
                   <div className="campaign-info">
@@ -443,19 +466,28 @@ export default function DashboardPage() {
                   </div>
                   <div className="campaign-actions">
                     {c.status === 'pending' && (
-                      <button id={`approve-campaign-${c.id}`} className="btn btn-primary btn-sm">
+                      <button id={`approve-campaign-${c.id}`} className="btn btn-primary btn-sm" onClick={() => setSelectedCampaignId(c.id)}>
                         ✓ Approve
                       </button>
                     )}
                     {c.status === 'draft' && (
-                      <button id={`review-campaign-${c.id}`} className="btn btn-outline btn-sm">
+                      <button id={`review-campaign-${c.id}`} className="btn btn-outline btn-sm" onClick={() => setSelectedCampaignId(c.id)}>
                         Review
                       </button>
                     )}
                     {c.status === 'active' && (
-                      <button id={`pause-campaign-${c.id}`} className="btn btn-ghost btn-sm">
+                      <button id={`pause-campaign-${c.id}`} className="btn btn-ghost btn-sm" onClick={() => setSelectedCampaignId(c.id)}>
                         ⏸ Pause
                       </button>
+                    )}
+                    {c.status === 'paused' && (
+                      <button id={`resume-campaign-${c.id}`} className="btn btn-outline btn-sm" onClick={() => setSelectedCampaignId(c.id)}>
+                        ▶ Resume
+                      </button>
+                    )}
+                    {(c.status === 'active' || c.status === 'paused' || c.status === 'pending' || c.status === 'draft') && (
+                       // This acts as a generic "view details" button fallback if needed, but the mock implies the buttons above represent the primary calls to action. Let's make the whole card clickable except the buttons.
+                       null
                     )}
                   </div>
                 </div>
@@ -550,6 +582,18 @@ export default function DashboardPage() {
           ))}
         </div>
       </div>
+      <AddCampaignModal
+        open={showCampaignModal}
+        onClose={() => setShowCampaignModal(false)}
+        onAdd={handleAddCampaign}
+        businessName={displayUser.name}
+        city={displayUser.city}
+      />
+      <CampaignDrawer
+        campaign={selectedCampaign}
+        onClose={() => setSelectedCampaignId(null)}
+        onAction={handleCampaignAction}
+      />
     </div>
   )
 }
